@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Workout Tracker</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #0d0d0d;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: #1a1a1a;
+      box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    }
+    .logo {
+      width: 120px;
+      margin-right: 15px;
+    }
+    h1 {
+      font-size: 35px;
+      margin: 0;
+    }
+    .motivation {
+      font-size: 18px;
+      background: linear-gradient(45deg, #ff8c00, #ff0080);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 80%;
+      font-weight: bold;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .exercise-card {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .exercise-card:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+    }
+    .exercise-card img {
+      width: 100%;
+      border-radius: 10px;
+      height: 200px;
+    }
+    .status, #timer, #total-time, #calories {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .stop-button {
+      background: #ff0000;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 20px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .stop-button:hover {
+      background: #b30000;
+    }
+    #workout-result {
+      font-size: 20px;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #00ffcc, #0077ff);
+      font-weight: bold;
+    }
+    .glass-meal-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+    }
+    .glass-meal-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+    #music-player button {
+      padding: 10px 18px;
+      margin: 5px;
+      font-size: 16px;
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #music-player button:hover {
+      background-color: #005fcc;
+    }
+    #videoContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        #learnBtn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #learnBtn:hover {
+            background-color: #218838;
+        }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="static/logo.webp" alt="AI Workout Logo" class="logo" />
+    <h1>🏋️ AI Workout Tracker</h1>
+  </div>
+
+  <div class="motivation">
+    💪 Stay strong! Every rep counts. Push beyond your limits. 💦 <b>Stay hydrated!</b>
+  </div>
+
+  <div id="timer">Current Workout Time: 00:00:00</div>
+
+  <div id="music-player" style="margin-top: 30px;">
+    <h2>🎵 Motivational Music</h2>
+    <audio id="audio" controls></audio>
+    <br />
+    <button onclick="playMusic()">▶️ Play</button>
+    <button onclick="pauseMusic()">⏸️ Pause</button>
+    <button onclick="nextTrack()">⏭️ Next</button>
+  </div>
+
+  <div class="container">
+    <div class="exercise-card" onclick="startExercise('pushup')">
+      <img src="static/pushup.jpg" alt="Push-up" />
+      <h2>Push-up</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('pullup')">
+      <img src="static/pullup.jpeg" alt="Pull-up" />
+      <h2>Pull-up</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('cardio')">
+      <img src="static/cardio.jpeg" alt="Cardio" />
+      <h2>Cardio</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('benchpress')">
+      <img src="static/benchpress.jpeg" alt="Bench Press" />
+      <h2>Bench Press</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('dumbbells')">
+      <img src="static/dumbbells.jpeg" alt="Dumbbells" />
+      <h2>Dumbbells</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('lunges')">
+      <img src="static/lundges.jpg" alt="Lunges" />
+      <h2>Lunges</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('shoulder')">
+      <img src="static/shoulder.jpeg" alt="Shoulder" />
+      <h2>Shoulder</h2>
+    </div>
+    <div class="exercise-card" onclick="startExercise('squat')">
+      <img src="static/squat.avif" alt="Squat" />
+      <h2>Squat</h2>
+    </div>
+  </div>
+
+  <p class="status" id="status">Click an exercise to start!</p>
+
+  <button class="stop-button" onclick="stopWorkout()">Stop Workout</button>
+
+  <p id="total-time"></p>
+  <p id="calories"></p>
+
+  <div id="workout-result">
+    <h2>🏆 Workout Summary 🏆</h2>
+    <p id="workout-feedback">Your workout results will be displayed here.</p>
+  </div>
+
+  <a href="{{ url_for('meal_planner') }}" class="glass-meal-btn">🍽️ Meal Plan</a>
+  <button id="learnBtn">Learn Tutorial</button>
+
+  <div id="videoContainer">
+      <video id="tutorialVideo" controls>
+          <source src="{{ url_for('static', filename='workout_tutorial.mp4') }}" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+  </div>
+
+  <!-- ✅ Workout Progress Button -->
+  <a href="{{ url_for('workout_graph') }}">
+
+    <button style="
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #00c6ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin: 30px auto;
+      cursor: pointer;
+      font-weight: bold;
+    ">
+      📈 View Workout Progress
+    </button>
+  </a>
+
+  <script>
+    let startTime, interval;
+    let currentTrack = 0;
+    const audio = document.getElementById("audio");
+    const playlist = [
+      "{{ url_for('static', filename='music1.mp3') }}",
+      "{{ url_for('static', filename='music2.mp3') }}",
+      "{{ url_for('static', filename='music3.mp3') }}",
+      "{{ url_for('static', filename='music4.mp3') }}",
+      "{{ url_for('static', filename='music5.mp3') }}"
+    ];
+
+    function loadTrack(index) {
+      audio.src = playlist[index];
+      audio.load();
+    }
+
+    function playMusic() {
+      if (!audio.src) {
+        loadTrack(currentTrack);
+      }
+      audio.play();
+    }
+
+    function pauseMusic() {
+      audio.pause();
+    }
+
+    function nextTrack() {
+      currentTrack = (currentTrack + 1) % playlist.length;
+      loadTrack(currentTrack);
+      audio.play();
+    }
+
+    audio.addEventListener("ended", nextTrack);
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - startTime;
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      document.getElementById('timer').innerText = `Current Workout Time: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function pad(num) {
+      return num < 10 ? '0' + num : num;
+    }
+
+    function startExercise(exercise) {
+      document.getElementById('status').innerText = `Doing ${exercise.toUpperCase()}...`;
+      alert(`You started ${exercise.toUpperCase()}!`);
+
+      fetch(`/start/${exercise}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            console.log(data.message);
+          } else {
+            alert("Error: " + data.error);
+          }
+        });
+
+      startTime = new Date();
+      clearInterval(interval);
+      interval = setInterval(updateTimer, 1000);
+    }
+
+    function stopWorkout() {
+      clearInterval(interval);
+      fetch('/stop')
+        .then(res => res.json())
+        .then(data => {
+          const minutes = Math.floor(data.total_time / 60);
+          const seconds = data.total_time % 60;
+          document.getElementById('total-time').innerText = `Total Time: ${minutes} min ${seconds} sec`;
+          document.getElementById('calories').innerText = `Calories Burned: ${data.calories}`;
+          document.getElementById('workout-feedback').innerText = `You exercised for ${minutes} minutes and burned approximately ${data.calories} calories. Great job!`;
+          document.getElementById('status').innerText = "Workout Completed!";
+
+          // Store workout results in localStorage
+          localStorage.setItem("totalTime", `${minutes}:${seconds}`);
+          localStorage.setItem("calories", data.calories);
+        });
+    }
+    document.getElementById('learnBtn').addEventListener('click', function() {
+            var videoContainer = document.getElementById('videoContainer');
+            var video = document.getElementById('tutorialVideo');
+
+            videoContainer.style.display = 'block';
+            video.play();
+        });
+
+    window.addEventListener("load", () => {
+      loadTrack(currentTrack);
+      const msg = new SpeechSynthesisUtterance("Welcome to AI Workout Tracker. Choose your exercise and stay strong!");
+      speechSynthesis.speak(msg);
+    });
+  </script>
+</body>
+</html>

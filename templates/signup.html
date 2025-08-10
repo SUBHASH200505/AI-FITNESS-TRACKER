@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up Successful - AI WORKOUT TRACKER</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #1c92d2, #f2fcfe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    .success-container {
+      background-color: #0a0a0a;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      max-width: 600px;
+      width: 90%;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #00e6ff;
+    }
+
+    .project-info {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e0e0e0;
+      margin-bottom: 30px;
+    }
+
+    .sign-in-btn {
+      display: inline-block;
+      background-color: #00c6ff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .sign-in-btn:hover {
+      background-color: #0072ff;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .success-container {
+        padding: 30px 25px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .project-info {
+        font-size: 1rem;
+      }
+
+      .sign-in-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="success-container">
+    <h1>Sign Up Successful!</h1>
+    
+    <p class="project-info">
+      Welcome to the <strong>AI Workout Tracker with Gesture Recognition</strong> project! You've just joined a revolutionary fitness technology initiative that allows users to control workout routines using hand gestures without touching any device.
+      <br><br>
+      Our system combines artificial intelligence with computer vision to track and analyze workout movements. Whether you're starting a new set, switching exercises, or monitoring your performance, your gestures do the talking!
+      <br><br>
+      Get ready to experience a futuristic and hands-free fitness journey that’s both efficient and innovative. Together, we are redefining how fitness and AI come together.
+    </p>
+
+    <a href="{{ url_for('user1') }}" class="sign-in-btn">Back</a>
+  </div>
+
+</body>
+</html>

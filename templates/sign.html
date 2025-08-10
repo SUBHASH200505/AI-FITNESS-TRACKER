@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI FITNESS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url("https://stayfitcentral.com/wp-content/uploads/2024/09/DALL%C2%B7E-2024-09-04-13.49.56-A-photorealistic-scene-of-a-Latina-woman-and-an-Asian-man-working-out-together-in-a-modern-minimalist-gym-following-a-personalized-AMRAP-workout-gen-1400x800.webp") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+        }
+
+        .sign-in-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 60px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: white;
+            width: 400px;
+            z-index: 2;
+        }
+
+        .sign-in-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input {
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .sign-in-btn {
+            display: block;
+            padding: 15px;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .sign-in-btn:hover {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        footer a {
+            color: #00c6ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .iron-man-container {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            animation: spin 6s linear infinite;
+            z-index: 1;
+        }
+
+        .iron-man-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Iron Man Animation -->
+    <div class="iron-man-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXGZNPMWehZnIUjMukm_TlsccnwOmMadb5A&s" alt="Ai Tracker">
+    </div>
+
+    <!-- Sign In Container -->
+    <div class="sign-in-container">
+        <h1>Create an Account</h1>
+        <form action="{{ url_for('do_signup') }}" method="POST">
+            <input type="text" name="username" placeholder="Enter Full Name" required>
+            <input type="email" name="email" placeholder="Enter Email" required>
+            <input type="password" name="password" placeholder="Create Password" required 
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                title="Password must contain at least 8 characters, including uppercase, lowercase letters, and numbers.">
+            <button type="submit" class="sign-in-btn">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © AI WORKOUT PLANNER | <a href="https://example.com">Learn More</a>
+    </footer>
+
+</body>
+</html>

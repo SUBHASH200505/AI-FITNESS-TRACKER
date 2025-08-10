@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI WORKOUT TRACKER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://stayfitcentral.com/wp-content/uploads/2024/09/endura_workout_generator_athletes_couple-1400x800.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+        }
+
+        #welcome-audio {
+            display: none;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 60px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: white;
+            width: 400px;
+            position: relative;
+        }
+
+        .container img {
+            width: 100px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input {
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"], input[type="password"] {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        button {
+            padding: 15px;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+        }
+
+        .sign-in-btn {
+            margin-top: 15px;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sign-in-btn:hover {
+            background: #218838;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .popup .popup-content {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 400px;
+        }
+
+        .popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #d32f2f;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Welcome Audio -->
+    <audio id="welcome-audio" autoplay>
+        <source src="welcome.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Login Container -->
+    <div class="container floating">
+        <img src="https://via.placeholder.com/100" alt="WORKOUT TRAINER">
+        <h1>AI WORKOUT TRACKER</h1>
+
+        <!-- Login Form: POST to /login route -->
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Enter Username" required>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Sign In Button using Flask route -->
+        <a href="{{ url_for('sign') }}">
+            <button class="sign-in-btn">Sign In</button>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 AI WORKOUT TRACKER
+    </footer>
+
+    <!-- Popup Message for Wrong Login -->
+    <div class="popup" id="login-error-popup">
+        <div class="popup-content">
+            <p>Wrong Login Credentials!</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <!-- Voice Welcome Script -->
+    <script>
+        window.addEventListener('load', () => {
+            const message = new SpeechSynthesisUtterance("Hello Sir or Madam, welcome to AI Workout Tracker. Please enter your login ID and password or sign in.");
+            message.pitch = 1;
+            message.rate = 1;
+            message.volume = 1;
+            message.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US') || speechSynthesis.getVoices()[0];
+            speechSynthesis.speak(message);
+        });
+
+        // Check if login error is triggered
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('login_error')) {
+            document.getElementById('login-error-popup').style.display = 'flex';
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('login-error-popup').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

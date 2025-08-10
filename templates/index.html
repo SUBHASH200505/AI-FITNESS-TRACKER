@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner Project</title>
+    <link rel="icon" type="image" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='App.js') }}" defer></script>
+</head>
+<body id="body">
+    <section id="page">
+        <nav id="logo">
+            <img id="image-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoTKEBVnWSYGSOd1efjBHQURzgmFtT7OLmoQ&s" alt="logo">
+            <img id="image-mealPlanner" src="" alt="Meal Planner">
+        </nav>
+        
+        <section id="user-work">
+            <!-- User Input Section -->
+            <form id="user-form">
+                <section id="inputType">
+                    <input class="form-control" id="height" type="number" placeholder="Enter Height (in cm)" min="1" required>
+                    <input class="form-control" id="weight" type="number" placeholder="Enter Weight (in kg)" min="1" required>
+                    <input class="form-control" id="age" type="number" placeholder="Enter Age" min="1" required>
+                </section>
+                <section id="selectType">
+                    <select class="form-control" name="gender" id="gender" required>
+                        <option value="">Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <select class="form-control" name="activity" id="activity-level" required>
+                        <option value="">Activity Level</option>
+                        <option value="1.375">Lightly active (exercise 1-3 days/week)</option>
+                        <option value="1.55">Moderately active (exercise 3-5 days/week)</option>
+                        <option value="1.725">Active (exercise 6-7 days/week)</option>
+                    </select>
+                </section>
+                <section id="button-sec">
+                    <button class="form-control" id="generate-meals-btn">Generate Meals</button>
+                </section>
+            </form>
+            <!-- Meals Section -->
+            <section id="meals"></section>
+            <!-- Recipe Section -->
+            <section id="recipe" class="recipe display">
+                <button class="form-control" id="stepsBtn">Steps</button>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>INGREDIENTS</th>
+                            <th>EQUIPMENT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recipeList"></tbody>
+                </table>
+                <section id="recipeSteps" class="display"></section>
+            </section>
+        </section>
+    </section>
+</body>
+</html>

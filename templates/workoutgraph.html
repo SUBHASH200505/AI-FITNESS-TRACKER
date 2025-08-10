@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Workout History</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 {
+      color: #00c6ff;
+      margin-bottom: 20px;
+    }
+    canvas {
+      margin-top: 30px;
+      background: white;
+      border-radius: 10px;
+    }
+    .summary {
+      background-color: #1a1a1a;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 15px;
+    }
+    .summary h2 {
+      margin-bottom: 15px;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .analysis {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏋️ Workout History</h1>
+  <p id="user-greeting"></p>
+
+  <div class="summary">
+    <h2>📊 Workout Time in the Past 7 Days</h2>
+    <canvas id="historyChart" width="400" height="200"></canvas>
+    <div class="analysis" id="analysisText"></div>
+  </div>
+
+  <div class="summary">
+    <h2>📝 Past Workout Summary</h2>
+    <ul id="workout-log"></ul>
+  </div>
+
+  <button class="btn" onclick="clearWorkoutData()">🧹 Clear History</button>
+
+  <script>
+    const user = localStorage.getItem("username") || "Guest";
+    document.getElementById("user-greeting").innerText = `Hello, ${user}! Here's your recent progress:`;
+
+    const today = new Date();
+    const labels = [];
+    const dataPoints = [];
+    const log = document.getElementById("workout-log");
+    let total = 0;
+
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const key = "workout_" + date.toISOString().split("T")[0];
+      const label = date.toDateString().slice(0, 10);
+
+      labels.push(label);
+      const minutes = parseInt(localStorage.getItem(key)) || 0;
+      dataPoints.push(minutes);
+      total += minutes;
+
+      if (minutes > 0) {
+        const li = document.createElement("li");
+        li.textContent = `${label}: ${minutes} minutes`;
+        log.appendChild(li);
+      }
+    }
+
+    const average = total / 7;
+    let message = "";
+
+    if (total === 0) {
+      message = "No workouts recorded this week. Let's get moving!";
+    } else if (average >= 30) {
+      message = "🔥 Great consistency! You're crushing it!";
+    } else if (average >= 15) {
+      message = "👍 Nice work! Try pushing a bit more each day.";
+    } else {
+      message = "👀 Time to refocus! You got this!";
+    }
+
+    document.getElementById("analysisText").innerText =
+      `Total: ${total} mins | Avg/Day: ${average.toFixed(1)} mins\n${message}`;
+
+    const ctx = document.getElementById('historyChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Workout Duration (minutes)',
+            data: dataPoints,
+            backgroundColor: '#00c6ff',
+            borderColor: '#0077ff',
+            borderWidth: 2,
+            borderRadius: 5
+          },
+          {
+            label: 'Total Workout Time',
+            data: Array(7).fill(total), // Total for each day
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: '#ff0066',
+            borderWidth: 2,
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          }
+        }
+      }
+    });
+
+    function clearWorkoutData() {
+      if (confirm("Are you sure you want to clear your workout history?")) {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith("workout_")) {
+            keysToRemove.push(key);
+          }
+        }
+        keysToRemove.forEach(k => localStorage.removeItem(k));
+        alert("Workout history cleared. Reloading page...");
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
